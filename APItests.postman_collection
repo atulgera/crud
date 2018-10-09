@@ -1,0 +1,242 @@
+{
+	"info": {
+		"_postman_id": "53880d2a-5c45-4a42-bbb9-b89964422d01",
+		"name": "API tests",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "https://reqres.in/api/users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "37c27927-1525-4cc6-99eb-20073d53bbdb",
+						"exec": [
+							"",
+							"const id =  pm.response.json().id;",
+							"console.log(\"Test case create user: Creating new user\");",
+							"",
+							"pm.test(\"User creation: response is ok\", function () {",
+							"    pm.response.to.have.status(201);",
+							"});",
+							"",
+							"    pm.sendRequest(\"https://reqres.in/api/users/\"+id, function (err, response) {",
+							"        var result = response.json();",
+							"        console.log(\"Checking if the new user is created\");",
+							"    pm.test(\"new user creation: checking first name\", function () {",
+							"        pm.expect(result.data.first_name).eql(\"AUser\");",
+							"    })",
+							"});    ",
+							"console.log(\"Test case create user done: user update function\");",
+							"",
+							"/*",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.value).to.eql(100);",
+							"});",
+							"*/"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "first_name",
+						"value": "Auser"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users?first_name=AUserName&last_name=AUser",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					],
+					"query": [
+						{
+							"key": "first_name",
+							"value": "AUserName"
+						},
+						{
+							"key": "last_name",
+							"value": "AUser"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://reqres.in/api/users",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "a8924cb9-184c-45a2-a920-455005162591",
+						"exec": [
+							"",
+							"const id=1;",
+							"console.log(\"Test 2 started: Reading existing user\");",
+							"pm.test(\"response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"",
+							"pm.test(\"checking first name\", function () {",
+							"    pm.sendRequest(\"https://reqres.in/api/users/\"+id, function (err, response) {",
+							"        var result = response.json();",
+							"        pm.expect(result.data.first_name).eql(\"George\");",
+							"    })",
+							"});    ",
+							"",
+							"console.log(\"Test case 2 ending: Reading existing user\");",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": ""
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://reqres.in/api/users/2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "bec5fe10-8f27-464b-881f-1fe79fe8af3d",
+						"exec": [
+							"const id =  2;",
+							"",
+							"pm.test(\"User creation: response is ok\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"",
+							"console.log(\"Test case update user starting: user update function\");",
+							"pm.sendRequest(\"https://reqres.in/api/users/\"+id, function (err, response) {",
+							"        var result = response.json();",
+							"            pm.test(\"user update: checking first name\", function () {",
+							"        pm.expect(result.data.first_name).eql(\"ANew\");",
+							"    })",
+							"});    ",
+							"console.log(\"Test case update user done: user update function\");"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"auth": {
+					"type": "noauth"
+				},
+				"method": "PUT",
+				"header": [
+					{
+						"key": "first_name",
+						"value": "Aname",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "formdata",
+					"formdata": [
+						{
+							"key": "first_name",
+							"value": "GeorgeNew",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "https://reqres.in/api/users/2",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "424f4d85-efaf-4140-9f04-0be0bed8574d",
+						"exec": [
+							"console.log(\"Test case delete user: user update function\");",
+							"",
+							"pm.test(\"Status code is 204: delete successful\", function () {",
+							"    pm.response.to.have.status(204);",
+							"});",
+							"",
+							"console.log(\"Test case delete user done: user update function\");",
+							"",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "DELETE",
+				"header": [],
+				"body": {},
+				"url": {
+					"raw": "https://reqres.in/api/users/2",
+					"protocol": "https",
+					"host": [
+						"reqres",
+						"in"
+					],
+					"path": [
+						"api",
+						"users",
+						"2"
+					]
+				}
+			},
+			"response": []
+		}
+	]
+}
